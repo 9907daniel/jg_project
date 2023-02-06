@@ -1,5 +1,15 @@
- <?php
-include_once'header.php';
+<?php
+include_once'dbconnect.php';
+session_start();
+
+# if session user_email is empty, redirect to login page
+if($_SESSION['user_email']==""){
+    header('location: login.php');
+}elseif($_SESSION['user_role']=="Admin"){
+    header('location: dashboard_admin.php');
+}
+
+include_once'header_user.php';
 ?>
  
  <!-- Content Wrapper. Contains page content -->
@@ -7,7 +17,7 @@ include_once'header.php';
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Task Manager
+        User Task Manager
         <small>Optional description</small>
       </h1>
       <ol class="breadcrumb">

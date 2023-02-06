@@ -1,13 +1,14 @@
 <?php
-include_once'header_user.php';
+include_once'header_admin.php';
 ?>
  
+
  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        User Task Manager
+        Task Manager
         <small>Optional description</small>
       </h1>
       <ol class="breadcrumb">

@@ -1,3 +1,14 @@
+<!-- # scripts given first to utilize sweetalert library -->
+
+<!-- jQuery 3 -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="../plugins/iCheck/icheck.min.js"></script>
+
+<script src="../bower_components/sweetalert/sweetalert.js"></script>
+
 <?php
 include_once'dbconnect.php';
 session_start();
@@ -14,24 +25,58 @@ $select->execute();
 $row=$select->fetch(PDO::FETCH_ASSOC);
 
     if ($row['user_email'] == $user_email && $row['user_password'] == $user_password && $row['user_role'] == "Admin"){
-     echo $success='Admin Login Success';
-        
-     header('refresh:1;admin_dash.php');
+    
+    # check for user information 
+    $_SESSION['user_id'] = $row['user_id'];
+    $_SESSION['user_name'] = $row['user_name'];
+    $_SESSION['user_email'] = $row['user_email'];
+    $_SESSION['user_role'] = $row['user_role'];
+
+      echo '<script type="text/javascript"> 
+      jQuery(function validation(){
+        swal({
+          title: "Login Successfull!",
+          text: "Your email and password has been found!",
+          icon: "success"
+        });
+      });
+      </script>';
+
+      header('refresh:1;dashboard_admin.php');
 
     }elseif($row['user_email'] == $user_email && $row['user_password'] == $user_password && $row['user_role'] == "User"){
-      echo $success='User Login Success';
+      
+    # check for user information 
+    $_SESSION['user_id'] = $row['user_id'];
+    $_SESSION['user_name'] = $row['user_name'];
+    $_SESSION['user_email'] = $row['user_email'];
+    $_SESSION['user_role'] = $row['user_role'];
+      
+      echo '<script type="text/javascript"> 
+      jQuery(function validation(){
+        swal({
+          title: "Login Successfull!",
+          text: "Your email and password has been found!",
+          icon: "success"
+        });
+      });
+      </script>';
         
-      header('refresh:1;user_dash.php');
-
+      header('refresh:1;dashboard_user.php');
     }else{
-    echo 'login failed';
+      echo '<script type="text/javascript"> 
+      jQuery(function validation(){
+        swal({
+          title: "Login Failed!",
+          text: "Your email and password does not match!",
+          icon: "error",
+          button: "Retry!",
+        });
+      });
+      </script>';      
     }
 }
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -42,15 +87,15 @@ $row=$select->fetch(PDO::FETCH_ASSOC);
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" href="../plugins/iCheck/square/blue.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -65,7 +110,7 @@ $row=$select->fetch(PDO::FETCH_ASSOC);
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="index.php"><b>TM</b>Login</a>
+    <a href="login.php"><b>TM</b>Login</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -73,16 +118,16 @@ $row=$select->fetch(PDO::FETCH_ASSOC);
 
     <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email" name="user_email">
+        <input type="email" class="form-control" placeholder="Email" name="user_email" required>
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="user_password">
+        <input type="password" class="form-control" placeholder="Password" name="user_password" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
-            <a href="#">Find password</a><br>
+            <a href="forgot.php">Find password</a><br>
             <a href="register.html" class="text-center">Sign Up</a><br>
           <!-- <div class="checkbox icheck">
             <label>
@@ -104,12 +149,7 @@ $row=$select->fetch(PDO::FETCH_ASSOC);
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery 3 -->
-<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
+
 <script>
   $(function () {
     $('input').iCheck({
