@@ -36,31 +36,31 @@ include_once'header_admin.php';
         -------------------------->
         <!-- Main content -->
 
-        <div class="box box-primary">
+        <div class="box box-info">
             <div class="box-header with-border">
               <h3 class="box-title">Create new User</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form role="form" action="" method="post">
               <div class="box-body">
-
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="exampleInputName1">Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="txtname" placeholder="Enter Name">
+                    </div>
+                    <div>
+                        <label>Email address</label>
+                        <input type="email" class="form-control" name="txtemail" placeholder="Enter email">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="txtpassword" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control">  
+                        <select class="form-control" name="txtselect_option">
+                            <option value="" disabled selected>Select role</option>  
                             <option>User</option>
                             <option>Admin</option>
                         </select>
@@ -68,22 +68,41 @@ include_once'header_admin.php';
                 </div>
 
                 <div class="col-md-8">
-                    Table
+                    <table class = "table table-striped">
+                      <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        $select=$pdo->prepare("select * from sign_up order by user_id desc");
+                        $select->execute();
+
+                        while($row=$select->fetch(PDO::FETCH_OBJ)){
+                          echo'
+                          <tr>
+                          <td>'.$row->user_id. '</td>
+                          <td>'.$row->user_name. '</td>
+                          <td>'.$row->user_email.'</td>
+                          <td>'.$row->user_password. '</td>
+                          <td>'.$row->$user_role. '</td>
+                          </tr>
+                          ';
+                        }
+                        ?>
+
+                      </tbody>
+                    </table>  
                 </div>
-
-
-                
-
-
-
-
-
-
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-info">Save</button>
               </div>
             </form>
           </div>
